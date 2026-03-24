@@ -34,6 +34,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  bloc: ^9.0.0
+  dartz: ^0.10.1
+  equatable: ^2.0.7
+  flutter_animate: ^4.5.2
+  flutter_bloc: ^9.1.1
+  freezed_annotation: ^3.0.0
+  get_it: ^8.2.0
+  google_fonts: ^6.3.0
+  injectable: ^2.5.1
+  json_annotation: ^4.11.0
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -44,7 +55,11 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+  build_runner: ^2.4.15
   flutter_lints: ^6.0.0
+  freezed: ^3.0.0
+  injectable_generator: ^2.7.0
+  json_serializable: ^6.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

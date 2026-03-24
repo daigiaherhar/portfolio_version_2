@@ -18,28 +18,66 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
+# VS Code — uncomment to ignore local workspace settings
 #.vscode/
 
-# Flutter/Dart/Pub related
+# Flutter / Dart / Pub
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
 /coverage/
 
-# Symbolication related
+# Symbolication
 app.*.symbols
 
-# Obfuscation related
+# Obfuscation
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# Android build outputs
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android signing (do not commit secrets)
+android/app/key.properties
+*.jks
+*.keystore
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# FVM
+.fvm/
+
+# Remove the next line if you want to commit the lockfile (recommended for apps)
+pubspec.lock
+
+# Generated code (re-run: dart run build_runner build --delete-conflicting-outputs)
+*.g.dart
+*.freezed.dart
+*.config.dart
+/lib/generated/
+
+# ObjectBox (if used)
+lib/objectbox-model.json
+
+# iOS CocoaPods (many teams still commit Podfile.lock)
+/ios/Pods/
+
+# macOS
+**/xcuserdata/
+**/DerivedData/
+
+# Test / mocks
+*.mocks.dart
+
+# Cursor / IDE local (optional)
+#.cursor/

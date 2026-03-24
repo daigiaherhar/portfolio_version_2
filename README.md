@@ -1,5 +1,10 @@
 # portfolio_version_2
 
+* Tạo code DI
+```bash
+flutter packages pub run build_runner build --delete-conflicting-outputs
+```
+
 A new Flutter project.
 
 ## Getting Started
