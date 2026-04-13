@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:portfolio_version_2/core/theme/book_palette.dart';
+import 'package:portfolio_version_2/core/theme/const_colors.dart';
 
 /// Subtle vertical grain and soft smudges so the paper feels tactile.
 class BookPaperFiberPainter extends CustomPainter {
@@ -14,23 +14,38 @@ class BookPaperFiberPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final math.Random random = math.Random(seed);
     final double t = phase * math.pi * 2;
-    for (int i = 0; i < 48; i++) {
+    
+    // Subtle background noise
+    final Paint noisePaint = Paint()
+      ..color = ConstColors.black.withValues(alpha: 0.015);
+    for (int i = 0; i < 300; i++) {
       final double x = random.nextDouble() * size.width;
-      final double w = 0.4 + random.nextDouble() * 0.9;
-      final double shift = math.sin(t + x * 0.02) * 2;
-      final Paint paint = Paint()
-        ..color = BookPalette.black.withValues(
-          alpha: 0.018 + random.nextDouble() * 0.028,
+      final double y = random.nextDouble() * size.height;
+      canvas.drawCircle(Offset(x, y), 0.5, noisePaint);
+    }
+
+    // More organic fibers
+    for (int i = 0; i < 80; i++) {
+      final double x = random.nextDouble() * size.width;
+      final double w = 0.3 + random.nextDouble() * 0.7;
+      final double length = 20 + random.nextDouble() * 100;
+      final double startY = random.nextDouble() * size.height;
+      final double angle = (random.nextDouble() - 0.5) * 0.1;
+      
+      final Paint fiberPaint = Paint()
+        ..color = ConstColors.black.withValues(
+          alpha: 0.01 + random.nextDouble() * 0.02,
         )
         ..strokeWidth = w
-        ..strokeCap = StrokeCap.round
-        ..isAntiAlias = true;
+        ..strokeCap = StrokeCap.round;
+        
       canvas.drawLine(
-        Offset(x + shift, 0),
-        Offset(x + shift * 1.2 + random.nextDouble() * 3, size.height),
-        paint,
+        Offset(x, startY),
+        Offset(x + math.sin(angle) * length, startY + math.cos(angle) * length),
+        fiberPaint,
       );
     }
+
     final Path smudge = Path();
     smudge.addOval(
       Rect.fromCenter(
@@ -47,8 +62,8 @@ class BookPaperFiberPainter extends CustomPainter {
       Paint()
         ..shader = RadialGradient(
           colors: [
-            BookPalette.yellow.withValues(alpha: 0.045),
-            BookPalette.yellow.withValues(alpha: 0),
+            ConstColors.yellow.withValues(alpha: 0.03),
+            ConstColors.yellow.withValues(alpha: 0),
           ],
         ).createShader(Rect.fromLTWH(0, 0, size.width, size.height)),
     );

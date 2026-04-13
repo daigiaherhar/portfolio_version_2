@@ -1,18 +1,19 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:portfolio_version_2/core/theme/book_palette.dart';
+import 'package:portfolio_version_2/core/theme/const_colors.dart';
+import 'package:portfolio_version_2/core/theme/const_sizes.dart';
 
 class BookHexBadge extends StatelessWidget {
   final double size;
 
-  const BookHexBadge({super.key, this.size = 28});
+  const BookHexBadge({super.key, this.size = ConstSizes.s28});
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size(size, size),
-      painter: _HexPainter(color: BookPalette.yellow),
+      painter: _HexPainter(color: ConstColors.yellow),
     );
   }
 }

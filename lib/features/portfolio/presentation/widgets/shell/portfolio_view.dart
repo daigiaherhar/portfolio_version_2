@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:portfolio_version_2/core/router/app_section_route.dart';
 import 'package:portfolio_version_2/features/portfolio/domain/entities/portfolio_profile.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/bloc/portfolio_bloc.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/bloc/portfolio_event.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/bloc/portfolio_state.dart';
+import 'package:portfolio_version_2/core/theme/const_sizes.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/widgets/book/book_portfolio_reader.dart';
 
-class PortfolioView extends StatelessWidget {
+class PortfolioView extends StatefulWidget {
   const PortfolioView({super.key});
+
+  @override
+  State<PortfolioView> createState() => _PortfolioViewState();
+}
+
+class _PortfolioViewState extends State<PortfolioView> {
+  AppSectionRoute _section = AppSectionRoute.cover;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +37,12 @@ class PortfolioView extends StatelessWidget {
                   ),
                 final PortfolioProfile profile => BookPortfolioReader(
                     profile: profile,
+                    currentSection: _section,
+                    onSectionChanged: (AppSectionRoute nextSection) {
+                      if (nextSection != _section) {
+                        setState(() => _section = nextSection);
+                      }
+                    },
                   ),
               },
             PortfolioStatus.error => _PortfolioErrorBody(
@@ -70,7 +85,7 @@ class _PortfolioErrorBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(ConstSizes.s24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -79,7 +94,7 @@ class _PortfolioErrorBody extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: ConstSizes.s16),
             FilledButton.icon(
               onPressed: () =>
                   context.read<PortfolioBloc>().add(const LoadPortfolio()),

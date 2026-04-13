@@ -9,15 +9,28 @@ void main() {
     await DiService.setup();
   });
 
-  testWidgets('loads portfolio hero content', (WidgetTester tester) async {
+  testWidgets('loads portfolio cover content', (WidgetTester tester) async {
     await tester.pumpWidget(const PortfolioApp());
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pump(const Duration(seconds: 2));
+
     expect(find.text('Your Name'), findsOneWidget);
+  });
+
+  testWidgets('tapping a page dot opens Skills spread',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const PortfolioApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump(const Duration(seconds: 2));
+
     await tester.tap(find.byKey(const ValueKey<String>('book_page_dot_2')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump(const Duration(seconds: 2));
+
     expect(find.text('Skills'), findsOneWidget);
   });
 }

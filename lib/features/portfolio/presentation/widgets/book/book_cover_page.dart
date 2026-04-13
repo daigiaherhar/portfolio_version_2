@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:portfolio_version_2/core/theme/app_theme.dart';
 import 'package:portfolio_version_2/core/theme/book_palette.dart';
 import 'package:portfolio_version_2/features/portfolio/domain/entities/portfolio_profile.dart';
@@ -37,12 +38,12 @@ class BookCoverPage extends StatelessWidget {
                         fontSize: nameSize,
                         color: BookPalette.yellow,
                       ),
-                    ),
+                    ).animate().fadeIn(delay: 200.ms).slideX(begin: 0.2),
                   ),
                   Positioned(
                     top: 0,
                     left: 0,
-                    child: const BookHexBadge(size: 32),
+                    child: const BookHexBadge(size: 32).animate().fadeIn(delay: 100.ms).scale(),
                   ),
                   Positioned(
                     left: 0,
@@ -65,7 +66,7 @@ class BookCoverPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                  ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.1),
                   Center(
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
@@ -75,9 +76,14 @@ class BookCoverPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: 'PORTFOLIO'
                             .split('')
+                            .asMap()
+                            .entries
                             .map(
-                              (String ch) =>
-                                  _StackedLetter(char: ch, fontSize: titleSize),
+                              (entry) =>
+                                  _StackedLetter(char: entry.value, fontSize: titleSize)
+                                  .animate()
+                                  .fadeIn(delay: (400 + entry.key * 50).ms)
+                                  .slideY(begin: 0.1),
                             )
                             .toList(),
                       ),
@@ -96,7 +102,7 @@ class BookCoverPage extends StatelessWidget {
                             color: BookPalette.yellow,
                             height: 1.05,
                           ),
-                        ),
+                        ).animate().fadeIn(delay: 800.ms).slideX(begin: -0.2),
                         const SizedBox(width: 12),
                         RotatedBox(
                           quarterTurns: 3,
@@ -111,7 +117,7 @@ class BookCoverPage extends StatelessWidget {
                                 ..color = BookPalette.yellow,
                             ),
                           ),
-                        ),
+                        ).animate().fadeIn(delay: 900.ms).scale(),
                       ],
                     ),
                   ),

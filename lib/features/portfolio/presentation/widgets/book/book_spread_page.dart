@@ -1,8 +1,8 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:portfolio_version_2/core/theme/app_theme.dart';
-import 'package:portfolio_version_2/core/theme/book_palette.dart';
+import 'package:portfolio_version_2/core/theme/const_colors.dart';
+import 'package:portfolio_version_2/core/theme/const_sizes.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/widgets/book/book_motion_inherited.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/widgets/book/paint/book_chapter_wave_clipper.dart';
 import 'package:portfolio_version_2/features/portfolio/presentation/widgets/book/paint/book_paper_fiber_painter.dart';
@@ -12,12 +12,16 @@ class BookSpreadPage extends StatelessWidget {
   final List<String> chapterLines;
   final String chapterNumber;
   final Widget paperChild;
+  final Color? colorsPager;
+  final EdgeInsets? paddingPaper;
 
   const BookSpreadPage({
     super.key,
     required this.chapterLines,
     required this.chapterNumber,
     required this.paperChild,
+    this.colorsPager,
+    this.paddingPaper,
   });
 
   @override
@@ -33,13 +37,38 @@ class BookSpreadPage extends StatelessWidget {
           number: chapterNumber,
           waveEdge: waveEdge,
         );
-        final Widget paper = _PaperPanel(child: paperChild);
+        final Widget paper = _PaperPanel(
+          colorsPager: colorsPager,
+          child: paperChild,
+        );
         if (wide) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(flex: 42, child: chapter),
-              Expanded(flex: 58, child: paper),
+              Expanded(
+                flex: 42,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: ConstSizes.s100,
+                    bottom: ConstSizes.s100,
+                    left: ConstSizes.s100,
+                  ),
+                  child: chapter,
+                ),
+              ),
+              Expanded(
+                flex: 58,
+                child: Padding(
+                  padding:
+                      paddingPaper ??
+                      EdgeInsets.only(
+                        top: ConstSizes.s100,
+                        bottom: ConstSizes.s100,
+                        right: ConstSizes.s100,
+                      ),
+                  child: paper,
+                ),
+              ),
             ],
           );
         }
@@ -70,7 +99,12 @@ class _ChapterPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final Animation<double>? motion = BookMotionInherited.maybeOf(context);
     final Widget body = Padding(
-      padding: const EdgeInsets.fromLTRB(20, 28, 20, 20),
+      padding: const EdgeInsets.fromLTRB(
+        ConstSizes.s20,
+        ConstSizes.s28,
+        ConstSizes.s20,
+        ConstSizes.s20,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -78,15 +112,15 @@ class _ChapterPanel extends StatelessWidget {
               .where((String line) => line.trim().isNotEmpty)
               .map(
                 (String line) => Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
+                  padding: const EdgeInsets.only(bottom: ConstSizes.s4),
                   child: Text(
                     line,
                     style: AppTheme.archivoBlack(
-                      fontSize: 28,
-                      color: BookPalette.black,
+                      fontSize: ConstSizes.fontS28,
+                      color: ConstColors.black,
                       height: 0.95,
                     ),
-                  ),
+                  ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.2),
                 ),
               ),
           const Spacer(),
@@ -94,30 +128,30 @@ class _ChapterPanel extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               Positioned(
-                left: 6,
-                top: 8,
+                left: ConstSizes.s6,
+                top: ConstSizes.s8,
                 child: Text(
                   number,
                   style: AppTheme.archivoBlack(
-                    fontSize: 120,
-                    color: BookPalette.black.withValues(alpha: 0.12),
+                    fontSize: ConstSizes.fontS120,
+                    color: ConstColors.black.withValues(alpha: 0.12),
                   ),
                 ),
               ),
               Text(
                 number,
                 style: AppTheme.archivoBlack(
-                  fontSize: 120,
-                  color: BookPalette.white,
+                  fontSize: ConstSizes.fontS120,
+                  color: ConstColors.white,
                 ),
               ),
             ],
-          ),
+          ).animate().fadeIn(delay: 400.ms).scale(begin: const Offset(0.8, 0.8)),
         ],
       ),
     );
     if (motion == null) {
-      return ColoredBox(color: BookPalette.yellow, child: body);
+      return ColoredBox(color: ConstColors.yellow, child: body);
     }
     return ListenableBuilder(
       listenable: motion,
@@ -128,12 +162,8 @@ class _ChapterPanel extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              const ColoredBox(color: BookPalette.yellow),
-              // Positioned.fill(
-              //   child: CustomPaint(
-              //     painter: BookChapterAccentPainter(phase: ph),
-              //   ),
-              // ),
+              const ColoredBox(color: ConstColors.yellow),
+
               Positioned.fill(child: child!),
             ],
           ),
@@ -146,35 +176,44 @@ class _ChapterPanel extends StatelessWidget {
 
 class _PaperPanel extends StatelessWidget {
   final Widget child;
+  final Color? colorsPager;
 
-  const _PaperPanel({required this.child});
+  const _PaperPanel({required this.child, this.colorsPager});
 
   @override
   Widget build(BuildContext context) {
     final Animation<double>? motion = BookMotionInherited.maybeOf(context);
-    final BorderRadius radius = BorderRadius.circular(24);
+    final BorderRadius radius = BorderRadius.circular(ConstSizes.s24);
     return Container(
-      color: BookPalette.black,
-      padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
+      color: ConstColors.black,
+      padding: const EdgeInsets.fromLTRB(
+        ConstSizes.s12,
+        ConstSizes.s16,
+        ConstSizes.s12,
+        ConstSizes.s16,
+      ),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: radius,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.38),
-              blurRadius: 22,
-              offset: const Offset(6, 12),
+              blurRadius: ConstSizes.s22,
+              offset: const Offset(ConstSizes.s6, ConstSizes.s12),
             ),
           ],
         ),
         child: ClipRRect(
           borderRadius: radius,
           child: motion == null
-              ? ColoredBox(color: BookPalette.paper, child: child)
+              ? ColoredBox(
+                  color: colorsPager ?? ConstColors.paper,
+                  child: child,
+                )
               : Stack(
                   fit: StackFit.expand,
                   children: [
-                    const ColoredBox(color: BookPalette.paper),
+                    ColoredBox(color: colorsPager ?? ConstColors.paper),
                     Positioned.fill(
                       child: IgnorePointer(
                         child: ListenableBuilder(

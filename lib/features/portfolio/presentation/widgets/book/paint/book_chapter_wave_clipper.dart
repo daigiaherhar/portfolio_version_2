@@ -27,11 +27,9 @@ class BookChapterWaveClipper extends CustomClipper<Path> {
     const int steps = 36;
     for (int i = 0; i <= steps; i++) {
       final double y = size.height * (i / steps);
-      final double x = size.width +
-          _amp *
-              math.sin(
-                (y / size.height) * _waves * math.pi * 2 + ph,
-              );
+      final double x =
+          size.width +
+          _amp * math.sin((y / size.height) * _waves * math.pi * 2 + ph);
       path.lineTo(x, y);
     }
     path.lineTo(0, size.height);
@@ -47,11 +45,9 @@ class BookChapterWaveClipper extends CustomClipper<Path> {
     const int steps = 36;
     for (int i = steps; i >= 0; i--) {
       final double x = size.width * (i / steps);
-      final double y = size.height +
-          _amp *
-              math.sin(
-                (x / size.width) * _waves * math.pi * 2 + ph,
-              );
+      final double y =
+          size.height +
+          _amp * math.sin((x / size.width) * _waves * math.pi * 2 + ph);
       path.lineTo(x, y);
     }
     path.lineTo(0, 0);
